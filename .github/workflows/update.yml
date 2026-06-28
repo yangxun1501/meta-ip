@@ -1,0 +1,26 @@
+name: Update Meta IP YAML
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Convert
+        run: |
+          bash convert.sh
+
+      - name: Commit
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@example.com"
+          git add meta.yaml
+          git commit -m "update meta ip" || echo "no changes"
+          git push
+``
